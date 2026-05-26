@@ -1,164 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <title>Drag and Drop Activity</title>
 
 <style>
-
-body{
-    font-family:Arial, sans-serif;
-    background:#f4f7fb;
-    margin:0;
-    padding:20px;
-    color:#1f2d3d;
-}
-
-.container{
-    max-width:1200px;
-    margin:auto;
-}
-
-h1{
-    text-align:center;
-    color:#1f4e79;
-    margin-bottom:30px;
-}
-
-.activity-layout{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:25px;
-}
-
-.panel{
-    background:white;
-    border-radius:12px;
-    padding:20px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.08);
-}
-
-.panel h2{
-    margin-top:0;
-    color:#1f4e79;
-}
-
-.chips{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-    margin-bottom:20px;
-}
-
-.chip{
-    background:#d9e8f5;
-    border:2px solid #1f4e79;
-    border-radius:30px;
-    padding:10px 18px;
-    cursor:grab;
-    transition:0.3s;
-    font-weight:bold;
-}
-
-.chip:hover{
-    background:#c7ddf1;
-}
-
-.chip.active{
-    background:#1f4e79;
-    color:white;
-}
-
-.preview-card{
-    min-height:180px;
-    border:2px dashed #b8c7d6;
-    border-radius:12px;
-    padding:20px;
-    background:#f9fbfd;
-}
-
-.preview-title{
-    font-size:20px;
-    font-weight:bold;
-    color:#1f4e79;
-    margin-bottom:10px;
-}
-
-.dropzones{
-    display:grid;
-    gap:15px;
-}
-
-.dropzone{
-    background:#eef4fa;
-    border:2px dashed #7c9ab8;
-    border-radius:10px;
-    padding:15px;
-    min-height:100px;
-    transition:0.3s;
-}
-
-.dropzone h3{
-    margin-top:0;
-    color:#1f4e79;
-    font-size:16px;
-}
-
-.correct{
-    border-color:#2e8b57 !important;
-    background:#e6f6ec !important;
-}
-
-.incorrect{
-    border-color:#c0392b !important;
-    background:#fdecea !important;
-}
-
-.message{
-    margin-top:25px;
-    padding:18px;
-    border-radius:10px;
-    font-weight:bold;
-    text-align:center;
-    display:none;
-}
-
-.success{
-    background:#e6f6ec;
-    color:#2e8b57;
-    border:2px solid #2e8b57;
-}
-
-.return-button-container{
-    display:none;
-    margin-top:20px;
-    text-align:center;
-}
-
-.return-button{
-    display:inline-block;
-    padding:12px 24px;
-    background-color:#1f4e79;
-    color:white;
-    text-decoration:none;
-    border-radius:8px;
-    font-weight:bold;
-    transition:0.3s;
-}
-
-.return-button:hover{
-    background-color:#163a5c;
-}
-
-@media(max-width:900px){
-
-    .activity-layout{
-        grid-template-columns:1fr;
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+        margin: 0;
+        padding: 20px;
+        color: #1f2d3d;
     }
-}
 
+    .container {
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    h1 {
+        text-align: center;
+        color: #1f4e79;
+        margin-bottom: 30px;
+    }
+
+    .activity-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .panel {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .panel h2 {
+        margin-top: 0;
+        color: #1f4e79;
+    }
+
+    .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .chip {
+        background: #d9e8f5;
+        border: 2px solid #1f4e79;
+        border-radius: 30px;
+        padding: 10px 18px;
+        cursor: grab;
+        transition: 0.3s;
+        font-weight: bold;
+    }
+
+    .chip:hover {
+        background: #c7ddf1;
+    }
+
+    .chip.active {
+        background: #1f4e79;
+        color: white;
+    }
+
+    .preview-card {
+        min-height: 180px;
+        border: 2px dashed #b8c7d6;
+        border-radius: 12px;
+        padding: 20px;
+        background: #f9fbfd;
+    }
+
+    .preview-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #1f4e79;
+        margin-bottom: 10px;
+    }
+
+    .dropzones {
+        display: grid;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .dropzone {
+        background: #eef4fa;
+        border: 2px dashed #7c9ab8;
+        border-radius: 10px;
+        padding: 15px;
+        min-height: 60px;
+        transition: 0.3s;
+    }
+
+    .dropzone.correct {
+        border-color: #2e8b57;
+        background: #e6f6ec;
+    }
+
+    .dropzone.incorrect {
+        border-color: #c0392b;
+        background: #fdecea;
+    }
+
+    .dropzone h3 {
+        margin-top: 0;
+        color: #1f4e79;
+        font-size: 16px;
+    }
+
+    .message {
+        margin-top: 25px;
+        padding: 18px;
+        border-radius: 10px;
+        font-weight: bold;
+        text-align: center;
+        display: none;
+    }
+
+    .success {
+        background: #e6f6ec;
+        color: #2e8b57;
+        border: 2px solid #2e8b57;
+    }
+
+    .return-button-container {
+        display: none;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .return-button {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #1f4e79;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .return-button:hover {
+        background-color: #163a5c;
+    }
+
+    @media (max-width: 900px) {
+        .activity-layout {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 </head>
 
@@ -166,243 +163,215 @@ h1{
 
 <div class="container">
 
-<h1>Match the Description to the Correct Category</h1>
+    <h1>Match the Description to the Correct Category</h1>
 
-<div class="activity-layout">
+    <div class="activity-layout">
 
-    <!-- LEFT PANEL -->
-    <div class="panel">
+        <!-- LEFT PANEL -->
+        <div class="panel">
 
-        <h2>Select a Description</h2>
+            <h2>Select a Description</h2>
 
-        <div class="chips" id="chipsContainer"></div>
+            <div class="chips" id="chipsContainer"></div>
 
-        <div class="preview-card" id="previewCard">
-
-            <div class="preview-title">
-                Select a chip
+            <div class="preview-card" id="previewCard">
+                <div class="preview-title">Select a chip</div>
+                <div id="previewText">
+                    Click one of the description chips to preview its full text before dragging.
+                </div>
             </div>
 
-            <div id="previewText">
-                Click a chip to preview the full description before dragging it into the correct category.
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="panel">
+
+            <h2>Drop into the Correct Category</h2>
+
+            <div class="dropzones">
+
+                <div class="dropzone" data-answer="Assessment">
+                    <h3>Assessment</h3>
+                </div>
+
+                <div class="dropzone" data-answer="Invigilation">
+                    <h3>Invigilation</h3>
+                </div>
+
+                <div class="dropzone" data-answer="Irregularities">
+                    <h3>Irregularities</h3>
+                </div>
+
+                <div class="dropzone" data-answer="Packaging">
+                    <h3>Packaging</h3>
+                </div>
+
             </div>
 
         </div>
 
     </div>
 
-    <!-- RIGHT PANEL -->
-    <div class="panel">
-
-        <h2>Drop into the Correct Category</h2>
-
-        <div class="dropzones">
-
-            <div class="dropzone" data-answer="Assessment">
-                <h3>Assessment</h3>
-            </div>
-
-            <div class="dropzone" data-answer="Invigilation">
-                <h3>Invigilation</h3>
-            </div>
-
-            <div class="dropzone" data-answer="Irregularities">
-                <h3>Irregularities</h3>
-            </div>
-
-            <div class="dropzone" data-answer="Packaging">
-                <h3>Packaging</h3>
-            </div>
-
-        </div>
-
+    <!-- SUCCESS MESSAGE -->
+    <div class="message success" id="successMessage">
+        Excellent! You successfully completed the activity.
     </div>
 
-</div>
-
-<!-- SUCCESS MESSAGE -->
-
-<div class="message success" id="successMessage">
-    Excellent! You successfully completed the activity.
-</div>
-
-<!-- MOODLE RETURN BUTTON -->
-
-<div class="return-button-container" id="returnButtonContainer">
-
-    <a href="https://ctlilms.westerncape.gov.za/lms/mod/book/view.php?id=21787&chapterid=3041#mod_book-chapter"
-       target="_top"
-       class="return-button">
-
-       Return to Moodle Page
-
-    </a>
-
-</div>
+    <!-- RETURN BUTTON -->
+    <div class="return-button-container" id="returnButtonContainer">
+        <a href="https://ctlilms.westerncape.gov.za/lms/mod/book/view.php?id=21787&chapterid=3041#mod_book-chapter"
+           target="_top"
+           class="return-button">
+           Return to Moodle Page
+        </a>
+    </div>
 
 </div>
 
 <script>
 
 const items = [
-
-{
-    title:"Description 1",
-    text:"All scripts must be counted before candidates leave the venue.",
-    answer:"Assessment"
-},
-
-{
-    title:"Description 2",
-    text:"Candidates may not communicate during the examination.",
-    answer:"Invigilation"
-},
-
-{
-    title:"Description 3",
-    text:"Any suspected cheating must be formally reported.",
-    answer:"Irregularities"
-},
-
-{
-    title:"Description 4",
-    text:"Answer books must be sealed correctly after the session.",
-    answer:"Packaging"
-},
-
-{
-    title:"Description 5",
-    text:"Attendance registers must be completed accurately.",
-    answer:"Assessment"
-},
-
-{
-    title:"Description 6",
-    text:"Invigilators must remain attentive throughout the exam.",
-    answer:"Invigilation"
-},
-
-{
-    title:"Description 7",
-    text:"Confiscated notes must accompany the incident report.",
-    answer:"Irregularities"
-},
-
-{
-    title:"Description 8",
-    text:"Scripts should be packaged according to centre instructions.",
-    answer:"Packaging"
-}
-
+    {
+        title: "Description 1",
+        text: "All scripts must be counted before candidates leave the venue.",
+        answer: "Assessment"
+    },
+    {
+        title: "Description 2",
+        text: "Candidates may not communicate during the examination.",
+        answer: "Invigilation"
+    },
+    {
+        title: "Description 3",
+        text: "Any suspected cheating must be formally reported.",
+        answer: "Irregularities"
+    },
+    {
+        title: "Description 4",
+        text: "Answer books must be sealed correctly after the session.",
+        answer: "Packaging"
+    },
+    {
+        title: "Description 5",
+        text: "Attendance registers must be completed accurately.",
+        answer: "Assessment"
+    },
+    {
+        title: "Description 6",
+        text: "Invigilators must remain attentive throughout the exam.",
+        answer: "Invigilation"
+    },
+    {
+        title: "Description 7",
+        text: "Confiscated notes must accompany the incident report.",
+        answer: "Irregularities"
+    },
+    {
+        title: "Description 8",
+        text: "Scripts should be packaged according to centre instructions.",
+        answer: "Packaging"
+    }
 ];
 
 const chipsContainer = document.getElementById("chipsContainer");
+const previewCard = document.getElementById("previewCard");
 const previewText = document.getElementById("previewText");
-const previewTitle = document.querySelector(".preview-title");
-
 const successMessage = document.getElementById("successMessage");
 const returnButtonContainer = document.getElementById("returnButtonContainer");
 
+let selectedChip = null;
 let completed = 0;
 
-/* CREATE CHIPS */
+/* RANDOMISE CHIP ORDER */
+const shuffledItems = [...items].sort(() => Math.random() - 0.5);
 
-items.forEach((item,index)=>{
+/* CREATE CHIPS */
+shuffledItems.forEach((item) => {
+
+    const originalIndex = items.indexOf(item);
 
     const chip = document.createElement("div");
 
     chip.className = "chip";
     chip.innerText = item.title;
-
-    chip.setAttribute("draggable","true");
+    chip.draggable = true;
 
     chip.dataset.answer = item.answer;
-    chip.dataset.index = index;
+    chip.dataset.index = originalIndex;
 
-    chip.addEventListener("click",()=>{
+    chip.addEventListener("click", () => {
 
-        document.querySelectorAll(".chip").forEach(c=>{
-            c.classList.remove("active");
-        });
+        document.querySelectorAll(".chip").forEach(c => 
+            c.classList.remove("active")
+        );
 
         chip.classList.add("active");
 
-        previewTitle.innerText = item.title;
+        previewCard.querySelector(".preview-title").innerText = item.title;
         previewText.innerText = item.text;
 
+        selectedChip = chip;
     });
 
-    chip.addEventListener("dragstart",(e)=>{
-
-        e.dataTransfer.setData("text/plain",index);
-
+    chip.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", originalIndex);
     });
 
     chipsContainer.appendChild(chip);
-
 });
 
 /* DROPZONES */
+document.querySelectorAll(".dropzone").forEach(zone => {
 
-document.querySelectorAll(".dropzone").forEach(zone=>{
-
-    zone.addEventListener("dragover",(e)=>{
+    zone.addEventListener("dragover", (e) => {
         e.preventDefault();
     });
 
-    zone.addEventListener("drop",(e)=>{
+    zone.addEventListener("drop", (e) => {
 
         e.preventDefault();
 
         const index = e.dataTransfer.getData("text/plain");
-
-        const chip = document.querySelector(`.chip[data-index="${index}"]`);
-
         const item = items[index];
 
-        if(!chip) return;
+        const draggedChip = document.querySelector(`.chip[data-index="${index}"]`);
 
-        /* prevent duplicate scoring */
+        if (!draggedChip) return;
 
-        if(chip.dataset.locked === "true"){
+        /* PREVENT DOUBLE SCORING */
+        if (draggedChip.dataset.locked === "true") {
             return;
         }
 
-        if(zone.dataset.answer === item.answer){
-
-            zone.appendChild(chip);
-
-            chip.dataset.locked = "true";
-
-            chip.style.cursor = "default";
-            chip.style.opacity = "0.9";
+        if (zone.dataset.answer === item.answer) {
 
             zone.classList.add("correct");
 
+            zone.appendChild(draggedChip);
+
+            draggedChip.draggable = false;
+            draggedChip.style.cursor = "default";
+            draggedChip.dataset.locked = "true";
+
             completed++;
 
-            if(completed === items.length){
+            if (completed === items.length) {
 
                 successMessage.style.display = "block";
 
                 /* SHOW RETURN BUTTON */
-
                 returnButtonContainer.style.display = "block";
-
             }
 
-        }else{
+        } else {
 
             zone.classList.add("incorrect");
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 zone.classList.remove("incorrect");
-            },800);
-
+            }, 1000);
         }
-
     });
-
 });
 
 </script>
