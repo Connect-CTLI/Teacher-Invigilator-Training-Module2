@@ -1,1034 +1,363 @@
 <!DOCTYPE html>
-<html lang="en-ZA">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pre-Examination Procedure · Drag & Drop</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Drag and Drop Activity</title>
 
-    <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+        margin: 0;
+        padding: 20px;
+        color: #1f2d3d;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    h1 {
+        text-align: center;
+        color: #1f4e79;
+        margin-bottom: 30px;
+    }
+
+    .activity-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .panel {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .panel h2 {
+        margin-top: 0;
+        color: #1f4e79;
+    }
+
+    .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .chip {
+        background: #d9e8f5;
+        border: 2px solid #1f4e79;
+        border-radius: 30px;
+        padding: 10px 18px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: bold;
+    }
+
+    .chip:hover {
+        background: #c7ddf1;
+    }
+
+    .chip.active {
+        background: #1f4e79;
+        color: white;
+    }
+
+    .preview-card {
+        min-height: 180px;
+        border: 2px dashed #b8c7d6;
+        border-radius: 12px;
+        padding: 20px;
+        background: #f9fbfd;
+    }
+
+    .preview-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #1f4e79;
+        margin-bottom: 10px;
+    }
+
+    .dropzones {
+        display: grid;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .dropzone {
+        background: #eef4fa;
+        border: 2px dashed #7c9ab8;
+        border-radius: 10px;
+        padding: 15px;
+        min-height: 60px;
+        transition: 0.3s;
+    }
+
+    .dropzone.correct {
+        border-color: #2e8b57;
+        background: #e6f6ec;
+    }
+
+    .dropzone.incorrect {
+        border-color: #c0392b;
+        background: #fdecea;
+    }
+
+    .dropzone h3 {
+        margin-top: 0;
+        color: #1f4e79;
+        font-size: 16px;
+    }
+
+    .message {
+        margin-top: 25px;
+        padding: 18px;
+        border-radius: 10px;
+        font-weight: bold;
+        text-align: center;
+        display: none;
+    }
+
+    .success {
+        background: #e6f6ec;
+        color: #2e8b57;
+        border: 2px solid #2e8b57;
+    }
+
+    .return-button-container {
+        display: none;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .return-button {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #1f4e79;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .return-button:hover {
+        background-color: #163a5c;
+    }
+
+    @media (max-width: 900px) {
+        .activity-layout {
+            grid-template-columns: 1fr;
         }
-
-        :root {
-            --navy: #1a1f5e;
-            --navy-mid: #2d3494;
-            --navy-light: #eef0fa;
-
-            --accent-green: #3a6b22;
-            --accent-green-bg: #eaf3de;
-            --accent-green-border: #b0d47a;
-
-            --accent-red: #a32d2d;
-            --accent-red-bg: #fcebeb;
-            --accent-red-border: #f0a0a0;
-
-            --accent-blue-bg: #e6f1fb;
-            --accent-blue-border: #b5d4f4;
-            --accent-blue: #185fa5;
-
-            --border: #dde1ee;
-            --bg-page: #f2f4f9;
-            --bg-card: #ffffff;
-
-            --text-main: #1a1d2e;
-            --text-muted: #5a5f7a;
-            --text-light: #9a9fb8;
-        }
-
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: var(--bg-page);
-            color: var(--text-main);
-            min-height: 100vh;
-            padding: 32px 16px 64px;
-        }
-
-        .page-wrapper {
-            max-width: 1180px;
-            margin: 0 auto;
-        }
-
-        /* HEADER */
-        .module-tag {
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 4px;
-            line-height: 1.2;
-        }
-
-        .page-subtitle {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-        }
-
-        /* INSTRUCTION BAR */
-        .instruction-bar {
-            background: var(--bg-card);
-            border: 1.5px solid var(--border);
-            border-top: 4px solid var(--navy);
-            border-radius: 12px;
-            padding: 20px 24px 20px 20px;
-            display: flex;
-            align-items: flex-start;
-            gap: 18px;
-            margin-bottom: 28px;
-            box-shadow: 0 2px 8px rgba(26,31,94,0.07);
-        }
-
-        .instr-icon {
-            font-size: 2.4rem;
-            line-height: 1;
-            flex-shrink: 0;
-        }
-
-        .instr-body {
-            flex: 1;
-        }
-
-        .instr-body .instr-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 6px;
-        }
-
-        .instr-body p {
-            font-size: 0.855rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* PROGRESS */
-        .progress-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .progress-label {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
-
-        .progress-track {
-            flex: 1;
-            height: 5px;
-            background: var(--border);
-            border-radius: 99px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--navy-mid);
-            border-radius: 99px;
-            transition: width 0.3s ease;
-            width: 0%;
-        }
-
-        .progress-count {
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: var(--navy);
-            min-width: 32px;
-            text-align: right;
-        }
-
-        /* LABELS */
-        .bank-label,
-        .zones-label {
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.09em;
-            text-transform: uppercase;
-            color: var(--text-light);
-            margin-bottom: 10px;
-        }
-
-        /* BANK + PREVIEW LAYOUT */
-        .bank-preview-layout {
-            display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 18px;
-            align-items: start;
-            margin-bottom: 28px;
-        }
-
-        /* CHIP BANK */
-        .chip-bank {
-            background: var(--bg-card);
-            border: 1.5px solid var(--border);
-            border-radius: 14px;
-            padding: 16px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            min-height: 160px;
-        }
-
-        .chip-bank.drag-over {
-            border-color: var(--navy-mid);
-            background: var(--navy-light);
-        }
-
-        .chip {
-            background: var(--bg-card);
-            border: 1.5px solid var(--border);
-            border-radius: 10px;
-            padding: 12px 10px 10px;
-            cursor: grab;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            text-align: center;
-            transition: all 0.15s ease;
-            user-select: none;
-        }
-
-        .chip:hover {
-            border-color: var(--navy-mid);
-            box-shadow: 0 3px 10px rgba(26,31,94,0.12);
-            transform: translateY(-1px);
-        }
-
-        .chip.selected {
-            border-color: var(--navy-mid);
-            background: var(--navy-light);
-            box-shadow: 0 0 0 2px rgba(45,52,148,0.12);
-        }
-
-        .chip.dragging {
-            opacity: 0.2;
-            transform: scale(0.93);
-        }
-
-        .chip-emoji {
-            font-size: 1.5rem;
-            line-height: 1;
-        }
-
-        .chip-label {
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--text-main);
-            line-height: 1.25;
-        }
-
-        .chip-timing {
-            font-size: 0.63rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            background: var(--accent-blue-bg);
-            border-radius: 4px;
-            padding: 1px 5px;
-            line-height: 1.4;
-        }
-
-        /* PREVIEW PANEL */
-        .preview-panel {
-            background: var(--bg-card);
-            border: 1.5px solid var(--border);
-            border-top: 4px solid var(--navy);
-            border-radius: 14px;
-            padding: 18px;
-            min-height: 360px;
-            box-shadow: 0 2px 8px rgba(26,31,94,0.07);
-            position: sticky;
-            top: 20px;
-        }
-
-        .preview-header {
-            margin-bottom: 14px;
-        }
-
-        .preview-tag {
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-light);
-        }
-
-        .preview-empty {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            min-height: 260px;
-            color: var(--text-muted);
-            gap: 12px;
-        }
-
-        .preview-empty-icon {
-            font-size: 2.5rem;
-        }
-
-        .preview-top {
-            display: flex;
-            gap: 14px;
-            align-items: flex-start;
-            margin-bottom: 16px;
-        }
-
-        .preview-emoji {
-            font-size: 2.3rem;
-            line-height: 1;
-            flex-shrink: 0;
-        }
-
-        .preview-timing {
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: var(--accent-blue);
-            background: var(--accent-blue-bg);
-            border-radius: 999px;
-            padding: 4px 10px;
-            margin-bottom: 8px;
-        }
-
-        .preview-title {
-            font-size: 1.05rem;
-            line-height: 1.35;
-            color: var(--navy);
-        }
-
-        .preview-description {
-            font-size: 0.86rem;
-            line-height: 1.7;
-            color: var(--text-main);
-            margin-bottom: 18px;
-        }
-
-        .preview-key {
-            background: #f8f9fc;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px 14px;
-            font-size: 0.78rem;
-            line-height: 1.6;
-            color: var(--text-muted);
-        }
-
-        .preview-key strong {
-            color: var(--navy);
-        }
-
-        /* DROP ZONES */
-        .zones-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 28px;
-        }
-
-        .drop-zone {
-            background: #f8f9fc;
-            border: 1.5px dashed var(--border);
-            border-radius: 12px;
-            min-height: 110px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            transition: border-color 0.15s, background 0.15s;
-        }
-
-        .drop-zone.drag-over {
-            border-color: var(--navy-mid);
-            background: var(--navy-light);
-            border-style: solid;
-        }
-
-        .drop-zone.filled {
-            border-style: solid;
-            border-color: var(--border);
-            background: var(--bg-card);
-        }
-
-        .zone-num {
-            background: #eef0f8;
-            color: var(--navy);
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 4px 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .drop-zone.filled .zone-num {
-            background: var(--navy);
-            color: white;
-        }
-
-        .zone-remove {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: inherit;
-        }
-
-        .zone-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 8px;
-            text-align: center;
-            gap: 4px;
-        }
-
-        .zone-placeholder {
-            font-size: 0.72rem;
-            color: var(--text-light);
-            font-style: italic;
-        }
-
-        .placed-emoji {
-            font-size: 1.3rem;
-        }
-
-        .placed-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .placed-timing {
-            font-size: 0.6rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            background: var(--accent-blue-bg);
-            border-radius: 4px;
-            padding: 1px 5px;
-        }
-
-        /* BUTTONS */
-        .controls {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 22px;
-        }
-
-        .btn-check {
-            background: var(--navy);
-            color: white;
-            border: none;
-            padding: 11px 28px;
-            font-size: 0.92rem;
-            font-weight: 600;
-            border-radius: 50px;
-            cursor: pointer;
-        }
-
-        .btn-check:disabled {
-            background: #b0b6d4;
-            cursor: not-allowed;
-        }
-
-        .btn-reset {
-            background: transparent;
-            color: var(--text-muted);
-            border: 1.5px solid var(--border);
-            padding: 10px 22px;
-            border-radius: 50px;
-            cursor: pointer;
-        }
-
-        /* FEEDBACK */
-        #feedback {
-            border-radius: 12px;
-            padding: 14px 18px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: none;
-            align-items: center;
-            gap: 10px;
-        }
-
-        #feedback.correct {
-            background: var(--accent-green-bg);
-            border: 1px solid var(--accent-green-border);
-            color: var(--accent-green);
-        }
-
-        #feedback.incorrect {
-            background: var(--accent-red-bg);
-            border: 1px solid var(--accent-red-border);
-            color: var(--accent-red);
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 860px) {
-
-            .bank-preview-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .preview-panel {
-                position: static;
-                min-height: auto;
-            }
-        }
-
-        @media (max-width: 580px) {
-
-            .chip-bank,
-            .zones-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            h1 {
-                font-size: 1.2rem;
-            }
-
-            .instruction-bar {
-                flex-direction: column;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 
 <body>
 
-<div class="page-wrapper">
+<div class="container">
 
-    <!-- HEADER -->
-    <p class="module-tag">Pre-Examination Procedure · Activity</p>
+    <h1>Match the Description to the Correct Category</h1>
 
-    <h1>Drag & Drop: Sort the Preparation Steps</h1>
+    <div class="activity-layout">
 
-    <p class="page-subtitle">
-        Invigilator Training — Chronological Sequencing
-    </p>
+        <!-- LEFT PANEL -->
+        <div class="panel">
 
-    <!-- INSTRUCTIONS -->
-    <div class="instruction-bar">
+            <h2>Select a Description</h2>
 
-        <div class="instr-icon">🗂️</div>
+            <div class="chips" id="chipsContainer"></div>
 
-        <div class="instr-body">
-
-            <div class="instr-title">
-                Click a step to preview it, then drag it into sequence
+            <div class="preview-card" id="previewCard">
+                <div class="preview-title">Select a chip</div>
+                <div id="previewText">
+                    Click one of the description chips to preview its full text before dragging.
+                </div>
             </div>
 
-            <p>
-                Select a step card to read the full procedure in the preview panel.
-                Once you understand the step, drag it into the correct numbered
-                position below.
-            </p>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="panel">
+
+            <h2>Drop into the Correct Category</h2>
+
+            <div class="dropzones">
+
+                <div class="dropzone" data-answer="Assessment">
+                    <h3>Assessment</h3>
+                </div>
+
+                <div class="dropzone" data-answer="Invigilation">
+                    <h3>Invigilation</h3>
+                </div>
+
+                <div class="dropzone" data-answer="Irregularities">
+                    <h3>Irregularities</h3>
+                </div>
+
+                <div class="dropzone" data-answer="Packaging">
+                    <h3>Packaging</h3>
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
-    <!-- PROGRESS -->
-    <div class="progress-row">
-
-        <span class="progress-label">Steps placed</span>
-
-        <div class="progress-track">
-            <div class="progress-fill" id="progress-fill"></div>
-        </div>
-
-        <span class="progress-count" id="progress-count">0 / 8</span>
-
+    <!-- SUCCESS MESSAGE -->
+    <div class="message success" id="successMessage">
+        Excellent! You successfully completed the activity.
     </div>
 
-    <!-- BANK + PREVIEW -->
-    <p class="bank-label">
-        Steps — click a step to preview it, then drag into the correct slot
-    </p>
-
-    <div class="bank-preview-layout">
-
-        <!-- CHIP BANK -->
-        <div class="chip-bank" id="chip-bank"></div>
-
-        <!-- PREVIEW PANEL -->
-        <aside class="preview-panel">
-
-            <div class="preview-header">
-                <span class="preview-tag">STEP PREVIEW</span>
-            </div>
-
-            <div class="preview-empty" id="preview-empty">
-
-                <div class="preview-empty-icon">👈</div>
-
-                <p>
-                    Select a step card to read the full description before placing it.
-                </p>
-
-            </div>
-
-            <div id="preview-content" style="display:none;">
-
-                <div class="preview-top">
-
-                    <div class="preview-emoji" id="preview-emoji"></div>
-
-                    <div>
-
-                        <div class="preview-timing" id="preview-timing"></div>
-
-                        <h3 class="preview-title" id="preview-title"></h3>
-
-                    </div>
-
-                </div>
-
-                <p class="preview-description" id="preview-description"></p>
-
-                <div class="preview-key">
-                    <strong>Key actions:</strong>
-                    <span id="preview-key"></span>
-                </div>
-
-            </div>
-
-        </aside>
-
+    <!-- RETURN BUTTON -->
+    <div class="return-button-container" id="returnButtonContainer">
+        <a href="https://ctlilms.westerncape.gov.za/lms/mod/book/view.php?id=21787&chapterid=3041#mod_book-chapter"
+           target="_top"
+           class="return-button">
+           Return to Moodle Page
+        </a>
     </div>
-
-    <!-- DROP ZONES -->
-    <p class="zones-label">
-        Sequence — drop each step into the correct position
-    </p>
-
-    <div class="zones-grid" id="zones-grid"></div>
-
-    <!-- BUTTONS -->
-    <div class="controls">
-
-        <button class="btn-check" id="btn-check" onclick="checkOrder()" disabled>
-            ✓ Check my answers
-        </button>
-
-        <button class="btn-reset" onclick="resetActivity()">
-            ↩ Start over
-        </button>
-
-    </div>
-
-    <!-- FEEDBACK -->
-    <div id="feedback"></div>
 
 </div>
 
 <script>
-
-const stepsData = [
-
+const items = [
     {
-        id:'s1',
-        emoji:'🏫',
-        timing:'2 days before',
-        label:'Prepare the Venue',
-        title:'Prepare the Examination Venue',
-        desc:'Clean, well-lit, ventilated venue. Desks 1 metre apart. Remove all learning materials and posters. Switch off intercom/PA system.',
-        key:'Clean venue · desks 1m apart · remove learning material · disable PA'
+        title: "Description 1",
+        text: "All scripts must be counted before candidates leave the venue.",
+        answer: "Assessment"
     },
-
     {
-        id:'s2',
-        emoji:'🪑',
-        timing:'Before the exam',
-        label:'Seating Plan',
-        title:'Prepare and Display the Seating Plan',
-        desc:'Unique plan per session using the snaking method. Examination numbers (not names) on desks. Display inside and outside the room.',
-        key:'Snaking method · exam numbers on desks · display inside & outside'
+        title: "Description 2",
+        text: "Candidates may not communicate during the examination.",
+        answer: "Invigilation"
     },
-
     {
-        id:'s3',
-        emoji:'🔑',
-        timing:'1 hour before',
-        label:'Session Bag & Briefing',
-        title:'Retrieve Session Bag and Brief Invigilators',
-        desc:'Retrieve sealed bag via SmartLock procedure. Verify subject and session. Confirm materials ready. Brief invigilators.',
-        key:'SmartLock · verify subject/session · briefing'
+        title: "Description 3",
+        text: "Any suspected cheating must be formally reported.",
+        answer: "Irregularities"
     },
-
     {
-        id:'s4',
-        emoji:'🚪',
-        timing:'35 min before',
-        label:'Admit & Search',
-        title:'Admit Candidates and Search for Prohibited Items',
-        desc:'Candidates enter 35 min before. Check IDs and admission letters. Self-search required. No phones or bags.',
-        key:'Check IDs · self-search · no phones · no bags'
+        title: "Description 4",
+        text: "Answer books must be sealed correctly after the session.",
+        answer: "Packaging"
     },
-
     {
-        id:'s5',
-        emoji:'📝',
-        timing:'25 min before',
-        label:'Issue Answer Books',
-        title:'Issue Answer Books and Complete Cover Pages',
-        desc:'Issue answer books individually. Record number issued. Verify all cover page details.',
-        key:'Verify sticker · exam no. · subject details'
+        title: "Description 5",
+        text: "Attendance registers must be completed accurately.",
+        answer: "Assessment"
     },
-
     {
-        id:'s6',
-        emoji:'📦',
-        timing:'Before writing',
-        label:'Distribute Question Papers',
-        title:'Verify, Open and Distribute Question Papers',
-        desc:'Two candidates verify sealed bags. Open correctly. Hand papers face down.',
-        key:'Verify bags · face down · note errata'
+        title: "Description 6",
+        text: "Invigilators must remain attentive throughout the exam.",
+        answer: "Invigilation"
     },
-
     {
-        id:'s7',
-        emoji:'📢',
-        timing:'10 min before',
-        label:'Read Rules Aloud',
-        title:'Read the Examination Rules Aloud',
-        desc:'Reading time starts. Candidates may read only. Invigilator reads rules aloud.',
-        key:'Reading time only · rules read aloud'
+        title: "Description 7",
+        text: "Confiscated notes must accompany the incident report.",
+        answer: "Irregularities"
     },
-
     {
-        id:'s8',
-        emoji:'✍️',
-        timing:'Writing begins',
-        label:'Begin Writing',
-        title:'Instruct Candidates to Begin Writing',
-        desc:'At official start time, instruct candidates to begin writing.',
-        key:'Official start · writing commences'
+        title: "Description 8",
+        text: "Scripts should be packaged according to centre instructions.",
+        answer: "Packaging"
     }
-
 ];
 
-const TOTAL = stepsData.length;
+const chipsContainer = document.getElementById("chipsContainer");
+const previewCard = document.getElementById("previewCard");
+const previewText = document.getElementById("previewText");
+const successMessage = document.getElementById("successMessage");
+const returnButtonContainer = document.getElementById("returnButtonContainer");
 
-let zoneContents = Array(TOTAL).fill(null);
-let bankItems = [];
-let selectedChipId = null;
+let selectedChip = null;
+let completed = 0;
 
-let dragId = null;
-let dragFrom = null;
-let dragFromZone = null;
+/* CREATE CHIPS */
+items.forEach((item, index) => {
 
-function shuffle(arr) {
-    return [...arr].sort(() => Math.random() - 0.5);
-}
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.innerText = item.title;
+    chip.draggable = true;
 
-function getStep(id) {
-    return stepsData.find(s => s.id === id);
-}
+    chip.dataset.answer = item.answer;
+    chip.dataset.index = index;
 
-function showPreview(id) {
+    chip.addEventListener("click", () => {
 
-    const step = getStep(id);
+        document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
 
-    document.getElementById('preview-empty').style.display = 'none';
-    document.getElementById('preview-content').style.display = 'block';
+        chip.classList.add("active");
 
-    document.getElementById('preview-emoji').textContent = step.emoji;
-    document.getElementById('preview-timing').textContent = step.timing;
-    document.getElementById('preview-title').textContent = step.title;
-    document.getElementById('preview-description').textContent = step.desc;
-    document.getElementById('preview-key').textContent = step.key;
-}
+        previewCard.querySelector(".preview-title").innerText = item.title;
+        previewText.innerText = item.text;
 
-function render() {
-    renderBank();
-    renderZones();
-    updateProgress();
-}
-
-function renderBank() {
-
-    const bank = document.getElementById('chip-bank');
-
-    bank.innerHTML = '';
-
-    if (bankItems.length === 0) {
-
-        bank.innerHTML = `
-            <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:center;color:var(--text-light);font-size:0.82rem;font-style:italic;padding:16px;">
-                All steps placed — check your sequence below ↓
-            </div>
-        `;
-
-        return;
-    }
-
-    bankItems.forEach(id => {
-
-        const step = getStep(id);
-
-        const chip = document.createElement('div');
-
-        chip.className = 'chip' + (selectedChipId === id ? ' selected' : '');
-
-        chip.draggable = true;
-
-        chip.innerHTML = `
-            <div class="chip-emoji">${step.emoji}</div>
-            <div class="chip-label">${step.label}</div>
-            <div class="chip-timing">${step.timing}</div>
-        `;
-
-        chip.addEventListener('click', () => {
-
-            selectedChipId = id;
-
-            showPreview(id);
-
-            render();
-        });
-
-        addChipDrag(chip, id, 'bank', null);
-
-        bank.appendChild(chip);
+        selectedChip = chip;
     });
-}
 
-function renderZones() {
+    chip.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", index);
+    });
 
-    const grid = document.getElementById('zones-grid');
+    chipsContainer.appendChild(chip);
+});
 
-    grid.innerHTML = '';
+/* DROPZONES */
+document.querySelectorAll(".dropzone").forEach(zone => {
 
-    for (let i = 0; i < TOTAL; i++) {
+    zone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+    });
 
-        const zone = document.createElement('div');
+    zone.addEventListener("drop", (e) => {
 
-        zone.className = 'drop-zone' + (zoneContents[i] ? ' filled' : '');
+        e.preventDefault();
 
-        const numRow = document.createElement('div');
+        const index = e.dataTransfer.getData("text/plain");
+        const item = items[index];
 
-        numRow.className = 'zone-num';
+        const draggedChip = document.querySelector(`.chip[data-index="${index}"]`);
 
-        numRow.innerHTML =
-            `<span>Step ${i + 1}</span>` +
-            (zoneContents[i]
-                ? `<button class="zone-remove" data-zone="${i}">✕</button>`
-                : '');
+        if (!draggedChip) return;
 
-        const content = document.createElement('div');
+        if (zone.dataset.answer === item.answer) {
 
-        content.className = 'zone-content';
+            zone.classList.add("correct");
 
-        if (zoneContents[i]) {
+            zone.appendChild(draggedChip);
 
-            const step = getStep(zoneContents[i]);
+            draggedChip.draggable = false;
+            draggedChip.style.cursor = "default";
 
-            content.innerHTML = `
-                <div class="placed-emoji">${step.emoji}</div>
-                <div class="placed-label">${step.label}</div>
-                <div class="placed-timing">${step.timing}</div>
-            `;
+            completed++;
 
-            content.draggable = true;
+            if (completed === items.length) {
 
-            addChipDrag(content, step.id, 'zone', i);
+                successMessage.style.display = "block";
+
+                /* SHOW RETURN BUTTON */
+                returnButtonContainer.style.display = "block";
+            }
 
         } else {
 
-            content.innerHTML = `
-                <span class="zone-placeholder">Drop here</span>
-            `;
-        }
+            zone.classList.add("incorrect");
 
-        zone.appendChild(numRow);
-        zone.appendChild(content);
-
-        addZoneDrop(zone, i);
-
-        grid.appendChild(zone);
-    }
-
-    grid.querySelectorAll('.zone-remove').forEach(btn => {
-
-        btn.addEventListener('click', () => {
-
-            removeFromZone(parseInt(btn.dataset.zone));
-        });
-    });
-}
-
-function addChipDrag(el, id, from, zoneIdx) {
-
-    el.addEventListener('dragstart', e => {
-
-        dragId = id;
-        dragFrom = from;
-        dragFromZone = zoneIdx;
-
-        setTimeout(() => {
-            el.classList.add('dragging');
-        }, 0);
-    });
-
-    el.addEventListener('dragend', () => {
-
-        el.classList.remove('dragging');
-
-        document.querySelectorAll('.drop-zone')
-            .forEach(z => z.classList.remove('drag-over'));
-    });
-}
-
-function addZoneDrop(zoneEl, idx) {
-
-    zoneEl.addEventListener('dragover', e => {
-
-        e.preventDefault();
-
-        zoneEl.classList.add('drag-over');
-    });
-
-    zoneEl.addEventListener('dragleave', () => {
-
-        zoneEl.classList.remove('drag-over');
-    });
-
-    zoneEl.addEventListener('drop', e => {
-
-        e.preventDefault();
-
-        zoneEl.classList.remove('drag-over');
-
-        if (!dragId) return;
-
-        const displaced = zoneContents[idx];
-
-        zoneContents[idx] = dragId;
-
-        selectedChipId = null;
-
-        if (dragFrom === 'bank') {
-
-            bankItems = bankItems.filter(id => id !== dragId);
-
-            if (displaced) {
-                bankItems.push(displaced);
-            }
-
-        } else if (dragFrom === 'zone') {
-
-            zoneContents[dragFromZone] = displaced || null;
-        }
-
-        dragId = null;
-        dragFrom = null;
-        dragFromZone = null;
-
-        render();
-    });
-}
-
-function removeFromZone(idx) {
-
-    const id = zoneContents[idx];
-
-    if (!id) return;
-
-    zoneContents[idx] = null;
-
-    bankItems.push(id);
-
-    render();
-}
-
-function updateProgress() {
-
-    const filled = zoneContents.filter(Boolean).length;
-
-    document.getElementById('progress-fill').style.width =
-        (filled / TOTAL * 100) + '%';
-
-    document.getElementById('progress-count').textContent =
-        filled + ' / ' + TOTAL;
-
-    document.getElementById('btn-check').disabled =
-        filled < TOTAL;
-}
-
-function checkOrder() {
-
-    const correctIds = stepsData.map(s => s.id);
-
-    let correct = 0;
-
-    zoneContents.forEach((id, i) => {
-
-        if (id === correctIds[i]) {
-            correct++;
+            setTimeout(() => {
+                zone.classList.remove("incorrect");
+            }, 1000);
         }
     });
-
-    const fb = document.getElementById('feedback');
-
-    fb.style.display = 'flex';
-
-    if (correct === TOTAL) {
-
-        fb.className = 'correct';
-
-        fb.innerHTML = `
-            ✅ ${TOTAL} steps correctly matched — excellent work!
-        `;
-
-    } else {
-
-        fb.className = 'incorrect';
-
-        fb.innerHTML = `
-            ❌ ${correct} of ${TOTAL} steps correctly placed.
-        `;
-    }
-}
-
-function resetActivity() {
-
-    zoneContents = Array(TOTAL).fill(null);
-
-    bankItems = shuffle(stepsData.map(s => s.id));
-
-    selectedChipId = null;
-
-    document.getElementById('preview-empty').style.display = 'flex';
-
-    document.getElementById('preview-content').style.display = 'none';
-
-    document.getElementById('feedback').style.display = 'none';
-
-    render();
-}
-
-resetActivity();
-
+});
 </script>
 
 </body>
