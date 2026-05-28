@@ -1,380 +1,663 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-ZA">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Examination Procedure · Drag &amp; Drop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<title>Drag and Drop Activity</title>
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f4f7fb;
-        margin: 0;
-        padding: 20px;
-        color: #1f2d3d;
-    }
-
-    .container {
-        max-width: 1200px;
-        margin: auto;
-    }
-
-    h1 {
-        text-align: center;
-        color: #1f4e79;
-        margin-bottom: 30px;
-    }
-
-    .activity-layout {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 25px;
-    }
-
-    .panel {
-        background: white;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    }
-
-    .panel h2 {
-        margin-top: 0;
-        color: #1f4e79;
-    }
-
-    .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .chip {
-        background: #d9e8f5;
-        border: 2px solid #1f4e79;
-        border-radius: 30px;
-        padding: 10px 18px;
-        cursor: grab;
-        transition: 0.3s;
-        font-weight: bold;
-    }
-
-    .chip:hover {
-        background: #c7ddf1;
-    }
-
-    .chip.active {
-        background: #1f4e79;
-        color: white;
-    }
-
-    .preview-card {
-        min-height: 180px;
-        border: 2px dashed #b8c7d6;
-        border-radius: 12px;
-        padding: 20px;
-        background: #f9fbfd;
-    }
-
-    .preview-title {
-        font-size: 20px;
-        font-weight: bold;
-        color: #1f4e79;
-        margin-bottom: 10px;
-    }
-
-    .dropzones {
-        display: grid;
-        gap: 15px;
-        margin-top: 20px;
-    }
-
-    .dropzone {
-        background: #eef4fa;
-        border: 2px dashed #7c9ab8;
-        border-radius: 10px;
-        padding: 15px;
-        min-height: 60px;
-        transition: 0.3s;
-    }
-
-    .dropzone.correct {
-        border-color: #2e8b57;
-        background: #e6f6ec;
-    }
-
-    .dropzone.incorrect {
-        border-color: #c0392b;
-        background: #fdecea;
-    }
-
-    .dropzone h3 {
-        margin-top: 0;
-        color: #1f4e79;
-        font-size: 16px;
-    }
-
-    .message {
-        margin-top: 25px;
-        padding: 18px;
-        border-radius: 10px;
-        font-weight: bold;
-        text-align: center;
-        display: none;
-    }
-
-    .success {
-        background: #e6f6ec;
-        color: #2e8b57;
-        border: 2px solid #2e8b57;
-    }
-
-    .return-button-container {
-        display: none;
-        margin-top: 20px;
-        text-align: center;
-    }
-
-    .return-button {
-        display: inline-block;
-        padding: 12px 24px;
-        background-color: #1f4e79;
-        color: white;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: bold;
-        transition: 0.3s;
-    }
-
-    .return-button:hover {
-        background-color: #163a5c;
-    }
-
-    @media (max-width: 900px) {
-        .activity-layout {
-            grid-template-columns: 1fr;
+        :root {
+            --navy: #001489;
+            --navy-mid: #007DBA;
+            --navy-light: #e6f1fb;
+            --accent-green: #8fad15;
+            --accent-green-bg: #f4f9e3;
+            --accent-green-border: #c8db6e;
+            --accent-red: #a32d2d;
+            --accent-red-bg: #fcebeb;
+            --accent-red-border: #f0a0a0;
+            --accent-blue-bg: #e6f1fb;
+            --accent-blue-border: #b5d4f4;
+            --accent-blue: #007DBA;
+            --border: #dde1ee;
+            --bg-page: #f2f4f9;
+            --bg-card: #ffffff;
+            --text-main: #001489;
+            --text-muted: #5a5f7a;
+            --text-light: #9a9fb8;
         }
-    }
-</style>
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 32px 16px 64px;
+        }
+
+        .page-wrapper { max-width: 960px; margin: 0 auto; }
+
+        /* ── HEADER ── */
+        .module-tag {
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px;
+        }
+        h1 { font-size: 1.5rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; line-height: 1.2; }
+        .page-subtitle { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 24px; }
+
+        /* ── INSTRUCTION BAR ── */
+        .instruction-bar {
+            background: var(--bg-card);
+            border: 1.5px solid var(--border);
+            border-top: 4px solid var(--navy);
+            border-radius: 12px;
+            padding: 20px 24px 20px 20px;
+            display: flex; align-items: flex-start; gap: 18px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 8px rgba(26,31,94,0.07);
+        }
+        .instr-icon { font-size: 2.4rem; line-height: 1; flex-shrink: 0; }
+        .instr-body { flex: 1; }
+        .instr-body .instr-title { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+        .instr-body p { font-size: 0.855rem; color: var(--text-muted); line-height: 1.6; }
+        .instr-body strong { color: var(--text-main); }
+
+        /* ── PROGRESS ── */
+        .progress-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .progress-label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+        .progress-track { flex: 1; height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--navy-mid); border-radius: 99px; transition: width 0.3s ease; width: 0%; }
+        .progress-count { font-size: 0.78rem; font-weight: 700; color: var(--navy); min-width: 32px; text-align: right; }
+
+        /* ── MAIN LAYOUT: single column ── */
+        .main-layout {
+            margin-bottom: 28px;
+        }
+
+        @media (max-width: 580px) {
+            .chip-bank, .zones-grid { grid-template-columns: repeat(2, 1fr); }
+            h1 { font-size: 1.2rem; }
+            .instruction-bar { flex-direction: column; gap: 10px; }
+        }
+
+        /* ── CHIP BANK (2×4) ── */
+        .chip-bank {
+            background: var(--bg-card);
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+            min-height: 110px;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .chip-bank.drag-over { border-color: var(--navy-mid); background: var(--navy-light); }
+
+        .chip {
+            background: var(--bg-card);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: 9px 8px 7px;
+            cursor: grab;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 4px; text-align: center;
+            transition: box-shadow 0.15s, border-color 0.15s, opacity 0.15s, transform 0.15s, background 0.15s;
+            user-select: none;
+            position: relative;
+        }
+        .chip:hover { border-color: var(--navy-mid); box-shadow: 0 3px 10px rgba(26,31,94,0.12); transform: translateY(-1px); }
+        .chip.dragging { opacity: 0.2; transform: scale(0.93); }
+
+        /* selected chip for preview */
+        .chip.selected {
+            border-color: var(--navy);
+            background: var(--navy-light);
+            box-shadow: 0 0 0 3px rgba(45,52,148,0.15);
+        }
+
+        .chip-emoji { font-size: 1.4rem; line-height: 1; }
+        .chip-label { font-size: 0.7rem; font-weight: 600; color: var(--text-main); line-height: 1.25; }
+        .chip-timing {
+            font-size: 0.6rem; font-weight: 600; color: var(--accent-blue);
+            background: var(--accent-blue-bg); border-radius: 4px;
+            padding: 1px 5px; line-height: 1.4;
+        }
+
+        /* small info hint */
+        .chip-hint {
+            font-size: 0.58rem; color: var(--text-light);
+            margin-top: 2px; font-style: italic;
+        }
+
+        /* ── DROP ZONES (2×4) ── */
+        .zones-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .drop-zone {
+            background: #f8f9fc;
+            border: 1.5px dashed var(--border);
+            border-radius: 12px;
+            min-height: 100px;
+            display: flex; flex-direction: column;
+            overflow: hidden;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .drop-zone.drag-over { border-color: var(--navy-mid); background: var(--navy-light); border-style: solid; }
+        .drop-zone.filled { border-style: solid; border-color: var(--border); background: var(--bg-card); }
+
+        .zone-num {
+            background: #eef0f8; color: var(--navy);
+            font-size: 0.68rem; font-weight: 700;
+            padding: 4px 8px;
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid var(--border); flex-shrink: 0;
+        }
+        .drop-zone.filled .zone-num { background: var(--navy); color: #fff; border-bottom-color: var(--navy-mid); }
+
+        .zone-remove {
+            background: none; border: none; cursor: pointer;
+            font-size: 0.72rem; color: inherit; opacity: 0.7;
+            padding: 0; line-height: 1; transition: opacity 0.15s;
+        }
+        .zone-remove:hover { opacity: 1; }
+
+        .zone-content {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 7px 6px; text-align: center; gap: 3px;
+        }
+        .zone-placeholder { font-size: 0.7rem; color: var(--text-light); font-style: italic; line-height: 1.4; }
+
+        .placed-emoji { font-size: 1.2rem; line-height: 1; }
+        .placed-label { font-size: 0.68rem; font-weight: 600; color: var(--text-main); line-height: 1.25; }
+        .placed-timing {
+            font-size: 0.58rem; font-weight: 600; color: var(--accent-blue);
+            background: var(--accent-blue-bg); border-radius: 4px; padding: 1px 5px;
+        }
+
+        /* zone feedback states */
+        .drop-zone.zone-correct .zone-num  { background: #8fad15; color: #fff; border-bottom-color: #6d8510; }
+        .drop-zone.zone-correct            { border-color: var(--accent-green-border); background: var(--accent-green-bg); }
+        .drop-zone.zone-correct .placed-timing { background: rgba(255,255,255,0.45); color: var(--accent-green); }
+        .drop-zone.zone-wrong .zone-num    { background: var(--accent-red); color: #fff; border-bottom-color: #7a1f1f; }
+        .drop-zone.zone-wrong              { border-color: var(--accent-red-border); background: var(--accent-red-bg); }
+        .drop-zone.zone-wrong .placed-timing { background: rgba(255,255,255,0.45); color: var(--accent-red); }
+
+        /* ── SECTION LABELS ── */
+        .section-label {
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 0.09em;
+            text-transform: uppercase; color: var(--text-light); margin-bottom: 10px;
+        }
+
+        /* ── INLINE INFO PANEL (shown below chip bank on click) ── */
+        #inline-info {
+            display: none;
+            background: var(--bg-card);
+            border: 1.5px solid #007DBA;
+            border-left: 4px solid #001489;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            animation: slideDown 0.18s ease;
+        }
+
+        #inline-info.visible { display: block; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+        }
+
+        .info-emoji { font-size: 1.8rem; line-height: 1; flex-shrink: 0; }
+
+        .info-header-body { flex: 1; }
+
+        .info-timing {
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.06em; color: var(--accent-blue);
+            background: var(--accent-blue-bg); border-radius: 4px;
+            padding: 2px 7px; display: inline-block; margin-bottom: 4px;
+        }
+
+        .info-title { font-size: 0.95rem; font-weight: 700; color: var(--navy); line-height: 1.3; }
+
+        .info-desc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 10px; }
+
+        .info-key-label {
+            font-size: 0.64rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.07em; color: var(--text-light); margin-bottom: 6px;
+        }
+
+        .info-key-list { display: flex; flex-wrap: wrap; gap: 5px; }
+
+        .key-chip {
+            font-size: 0.7rem; font-weight: 600;
+            background: var(--navy-light); color: var(--navy);
+            border-radius: 20px; padding: 3px 10px;
+        }
+
+        .info-close {
+            float: right; background: none; border: none; cursor: pointer;
+            font-size: 0.85rem; color: var(--text-light); line-height: 1;
+            transition: color 0.15s; margin-left: 8px;
+        }
+        .info-close:hover { color: var(--navy); }
+
+        /* ── BUTTONS ── */
+        .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
+
+        .btn-check {
+            background: var(--navy); color: #fff; border: none;
+            padding: 11px 28px; font-size: 0.92rem; font-weight: 600;
+            font-family: inherit; border-radius: 50px; cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-check:disabled { background: #b0b6d4; cursor: not-allowed; }
+        .btn-check:not(:disabled):hover { background: var(--navy-mid); }
+        .btn-check:not(:disabled):active { transform: scale(0.97); }
+
+        .btn-reset {
+            background: transparent; color: var(--text-muted);
+            border: 1.5px solid var(--border); padding: 10px 22px;
+            font-size: 0.88rem; font-weight: 500; font-family: inherit;
+            border-radius: 50px; cursor: pointer; transition: border-color 0.2s, color 0.2s;
+        }
+        .btn-reset:hover { border-color: var(--navy); color: var(--navy); }
+
+        /* ── FEEDBACK ── */
+        #feedback {
+            border-radius: 12px; padding: 14px 18px; font-size: 0.9rem;
+            font-weight: 600; display: none; align-items: center; gap: 10px; margin-bottom: 22px;
+        }
+        #feedback.visible   { display: flex; }
+        #feedback.correct   { background: var(--accent-green-bg); border: 1px solid var(--accent-green-border); color: var(--accent-green); }
+        #feedback.incorrect { background: var(--accent-red-bg);   border: 1px solid var(--accent-red-border);   color: var(--accent-red); }
+        .fb-icon { font-size: 1.2rem; }
+
+        /* ── BACK TO MOODLE ── */
+        #back-to-moodle { display: none; margin-bottom: 28px; }
+        #back-to-moodle.visible { display: block; }
+
+        .btn-moodle {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--accent-green); color: #fff; text-decoration: none;
+            padding: 13px 30px; font-size: 0.95rem; font-weight: 700;
+            font-family: inherit; border-radius: 50px; border: none; cursor: pointer;
+            box-shadow: 0 4px 14px rgba(58,107,34,0.3);
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+        }
+        .btn-moodle:hover { background: #6d8510; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(143,173,21,0.35); }
+        .btn-moodle:active { transform: scale(0.97); }
+        .btn-moodle .moodle-icon { font-size: 1.1rem; }
+        .btn-moodle { box-shadow: 0 4px 14px rgba(143,173,21,0.3); }
+
+        /* ── RESULTS TABLE ── */
+        #results-section { display: none; }
+        #results-section.visible { display: block; }
+
+        .results-heading {
+            font-size: 0.92rem; font-weight: 700; color: var(--navy);
+            margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+        }
+        .score-badge {
+            background: var(--navy); color: #fff; font-size: 0.75rem;
+            font-weight: 700; border-radius: 20px; padding: 2px 10px;
+        }
+        .results-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+        .results-table thead th {
+            background: #f0f1f8; color: var(--text-muted); font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.68rem;
+            padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--border);
+        }
+        .results-table tbody tr:nth-child(even) { background: #fafbfe; }
+        .results-table tbody td {
+            padding: 10px 12px; border-bottom: 1px solid var(--border);
+            color: var(--text-main); vertical-align: top; line-height: 1.5;
+        }
+        .results-table .key { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
+
+        @media (max-width: 580px) {
+            .chip-bank, .zones-grid { grid-template-columns: repeat(2, 1fr); }
+            h1 { font-size: 1.2rem; }
+            .instruction-bar { flex-direction: column; gap: 10px; }
+        }
+    </style>
 </head>
-
 <body>
+<div class="page-wrapper">
 
-<div class="container">
+    <p class="module-tag">Pre-Examination Procedure · Activity</p>
+    <h1>Drag &amp; Drop: Sort the Preparation Steps</h1>
+    <p class="page-subtitle">Invigilator Training — Chronological Sequencing</p>
 
-    <h1>Match the Description to the Correct Category</h1>
-
-    <div class="activity-layout">
-
-        <!-- LEFT PANEL -->
-        <div class="panel">
-
-            <h2>Select a Description</h2>
-
-            <div class="chips" id="chipsContainer"></div>
-
-            <div class="preview-card" id="previewCard">
-                <div class="preview-title">Select a chip</div>
-                <div id="previewText">
-                    Click one of the description chips to preview its full text before dragging.
-                </div>
-            </div>
-
+    <div class="instruction-bar">
+        <div class="instr-icon">🗂️</div>
+        <div class="instr-body">
+            <div class="instr-title">Drag &amp; Drop: Place each step in the correct position</div>
+            <p><strong>Drag each step</strong> into the correct numbered slot below (1 = first, 8 = last). Fill all 8 slots, then press <strong>Check my answers</strong>. Click ✕ on any filled slot to return a step to the bank. <strong>Click any step</strong> for more information.</p>
         </div>
-
-        <!-- RIGHT PANEL -->
-        <div class="panel">
-
-            <h2>Drop into the Correct Category</h2>
-
-            <div class="dropzones">
-
-                <div class="dropzone" data-answer="Assessment">
-                    <h3>Assessment</h3>
-                </div>
-
-                <div class="dropzone" data-answer="Invigilation">
-                    <h3>Invigilation</h3>
-                </div>
-
-                <div class="dropzone" data-answer="Irregularities">
-                    <h3>Irregularities</h3>
-                </div>
-
-                <div class="dropzone" data-answer="Packaging">
-                    <h3>Packaging</h3>
-                </div>
-
-            </div>
-
-        </div>
-
     </div>
 
-    <!-- SUCCESS MESSAGE -->
-    <div class="message success" id="successMessage">
-        Excellent! You successfully completed the activity.
+    <div class="progress-row">
+        <span class="progress-label">Steps placed</span>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <span class="progress-count" id="progress-count">0 / 8</span>
     </div>
 
-    <!-- RETURN BUTTON -->
-    <div class="return-button-container" id="returnButtonContainer">
-        <a href="https://ctlilms.westerncape.gov.za/lms/mod/book/view.php?id=21787&chapterid=3041#mod_book-chapter"
-           target="_top"
-           class="return-button">
-           Return to Moodle Page
+    <div class="main-layout">
+        <div class="activity-col">
+            <p class="section-label">Steps — click for more information · drag to place</p>
+            <div class="chip-bank" id="chip-bank"></div>
+
+            <!-- INLINE INFO PANEL -->
+            <div id="inline-info">
+                <button class="info-close" onclick="closeInfo()" title="Close">✕</button>
+                <div class="info-header">
+                    <div class="info-emoji" id="info-emoji"></div>
+                    <div class="info-header-body">
+                        <div class="info-timing" id="info-timing"></div>
+                        <div class="info-title" id="info-title"></div>
+                    </div>
+                </div>
+                <p class="info-desc" id="info-desc"></p>
+                <div class="info-key-label">Key actions</div>
+                <div class="info-key-list" id="info-keys"></div>
+            </div>
+
+            <p class="section-label">Your sequence — drop each step into the correct position</p>
+            <div class="zones-grid" id="zones-grid"></div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn-check" id="btn-check" onclick="checkOrder()" disabled>✓ Check my answers</button>
+        <button class="btn-reset" onclick="resetActivity()">↩ Start over</button>
+    </div>
+
+    <div id="feedback"></div>
+
+    <div id="back-to-moodle">
+        <a class="btn-moodle" href="https://ctlilms.westerncape.gov.za/lms/mod/book/view.php?id=21787&chapterid=3041#mod_book-chapter" target="_blank" rel="noopener">
+            <span class="moodle-icon">🏫</span>
+            <span>Return to Course Page</span>
+            <span style="font-size:0.85rem;opacity:0.85;">↗</span>
         </a>
     </div>
 
+    <div id="results-section">
+        <div class="results-heading">📋 Correct sequence <span class="score-badge" id="score-badge"></span></div>
+        <table class="results-table">
+            <thead><tr><th>#</th><th>Timing</th><th>Step &amp; key actions</th></tr></thead>
+            <tbody id="results-body"></tbody>
+        </table>
+    </div>
+
 </div>
-
 <script>
-
-const items = [
-    {
-        title: "Description 1",
-        text: "All scripts must be counted before candidates leave the venue.",
-        answer: "Assessment"
-    },
-    {
-        title: "Description 2",
-        text: "Candidates may not communicate during the examination.",
-        answer: "Invigilation"
-    },
-    {
-        title: "Description 3",
-        text: "Any suspected cheating must be formally reported.",
-        answer: "Irregularities"
-    },
-    {
-        title: "Description 4",
-        text: "Answer books must be sealed correctly after the session.",
-        answer: "Packaging"
-    },
-    {
-        title: "Description 5",
-        text: "Attendance registers must be completed accurately.",
-        answer: "Assessment"
-    },
-    {
-        title: "Description 6",
-        text: "Invigilators must remain attentive throughout the exam.",
-        answer: "Invigilation"
-    },
-    {
-        title: "Description 7",
-        text: "Confiscated notes must accompany the incident report.",
-        answer: "Irregularities"
-    },
-    {
-        title: "Description 8",
-        text: "Scripts should be packaged according to centre instructions.",
-        answer: "Packaging"
-    }
+const stepsData = [
+    { id:'s1', emoji:'🏫', timing:'2 days before',  label:'Prepare the Venue',          title:'Prepare the Examination Venue',                   desc:'Ensure the venue is clean, well-lit, well-ventilated, and free from disruptions. Arrange desks at least 1 metre apart. Remove all learning materials, posters and subject-related content from walls and boards. Switch off any intercom or public address system.', key:'Clean venue · desks 1m apart · remove learning material · disable PA' },
+    { id:'s2', emoji:'🪑', timing:'Before the exam', label:'Seating Plan',               title:'Prepare and Display the Seating Plan',             desc:'Prepare a unique seating plan for each session using the snaking method. Paste examination numbers — not names — on each desk. Display the seating plan both inside and outside the examination room so candidates can find their seats.', key:'Snaking method · exam numbers on desks · display inside & outside' },
+    { id:'s3', emoji:'🔑', timing:'1 hour before',   label:'Session Bag & Briefing',     title:'Retrieve Session Bag and Brief Invigilators',      desc:'Retrieve the sealed session bag following the SmartLock key procedure. Verify the correct subject and session. Confirm all documents and materials are ready. Ensure sufficient invigilators are present at a ratio of 1:30 and brief them on their roles and responsibilities.', key:'SmartLock · verify subject/session · ratio 1:30 · briefing' },
+    { id:'s4', emoji:'🚪', timing:'35 min before',   label:'Admit & Search',             title:'Admit Candidates and Search for Prohibited Items', desc:'Allow candidates to enter 35 minutes before the examination starts. Station an invigilator at the entrance to check IDs and admission letters. Ensure all candidates perform a self-search. Remove all unauthorised materials including phones, smart watches, notes, textbooks and Bluetooth devices. Bags must not enter the venue.', key:'Check IDs & admission · self-search · no phones/watches/notes · no bags' },
+    { id:'s5', emoji:'📝', timing:'25 min before',   label:'Issue Answer Books',         title:'Issue Answer Books and Complete Cover Pages',      desc:'Issue answer books individually 25 minutes before the start. Record the number of answer books issued. Verify that all candidates complete the 5-point check: barcoded sticker, examination number, date, subject code and subject name. Confirm cover pages are fully and correctly completed.', key:'5-point cover check: sticker · exam no. · date · subject code · name' },
+    { id:'s6', emoji:'📦', timing:'Before writing',  label:'Distribute Question Papers', title:'Verify, Open and Distribute Question Papers',      desc:'Have two candidates verify the sealed inner bags. Open the question paper bags in front of the candidates and the principal or centre manager. Hand each candidate the correct question paper individually, placed face down. Page through all papers to check for missing pages, unclear printing or repeated sections. Read and record any errata on the board and add extra time to compensate.', key:'Candidates verify bags · open in front of principal · face down · note errata' },
+    { id:'s7', emoji:'📢', timing:'10 min before',   label:'Read Rules Aloud',           title:'Read the Examination Rules Aloud',                 desc:'Begin reading time 10 minutes before writing starts. During reading time, candidates may read the question paper only — no writing is permitted. The invigilator must read the examination rules aloud to all candidates. Do not read the instructions printed on the question paper itself.', key:'Reading time only (no writing) · rules read aloud · skip QP instructions' },
+    { id:'s8', emoji:'✍️', timing:'Writing begins',  label:'Begin Writing',              title:'Instruct Candidates to Begin Writing',             desc:'At the official start time, instruct candidates to turn over their question papers and begin writing. Confirm the start time is recorded. The examination session is now officially underway and continuous invigilation must begin.', key:'Official start · turn over papers · writing commences · record start time' }
 ];
 
-const chipsContainer = document.getElementById("chipsContainer");
-const previewCard = document.getElementById("previewCard");
-const previewText = document.getElementById("previewText");
-const successMessage = document.getElementById("successMessage");
-const returnButtonContainer = document.getElementById("returnButtonContainer");
+const TOTAL = stepsData.length;
+let zoneContents = Array(TOTAL).fill(null);
+let bankItems = [];
+let dragId = null, dragFrom = null, dragFromZone = null;
+let selectedId = null;
 
-let selectedChip = null;
-let completed = 0;
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+function getStep(id) { return stepsData.find(s => s.id === id); }
 
-/* RANDOMISE CHIP ORDER */
-const shuffledItems = [...items].sort(() => Math.random() - 0.5);
+/* ── INLINE INFO PANEL ── */
+function showInfo(id) {
+    selectedId = id;
+    const step = getStep(id);
 
-/* CREATE CHIPS */
-shuffledItems.forEach((item) => {
+    document.getElementById('info-emoji').textContent  = step.emoji;
+    document.getElementById('info-timing').textContent = step.timing;
+    document.getElementById('info-title').textContent  = step.title;
+    document.getElementById('info-desc').textContent   = step.desc;
 
-    const originalIndex = items.indexOf(item);
-
-    const chip = document.createElement("div");
-
-    chip.className = "chip";
-    chip.innerText = item.title;
-    chip.draggable = true;
-
-    chip.dataset.answer = item.answer;
-    chip.dataset.index = originalIndex;
-
-    chip.addEventListener("click", () => {
-
-        document.querySelectorAll(".chip").forEach(c => 
-            c.classList.remove("active")
-        );
-
-        chip.classList.add("active");
-
-        previewCard.querySelector(".preview-title").innerText = item.title;
-        previewText.innerText = item.text;
-
-        selectedChip = chip;
+    const keyList = document.getElementById('info-keys');
+    keyList.innerHTML = '';
+    step.key.split(' · ').forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'key-chip';
+        span.textContent = k;
+        keyList.appendChild(span);
     });
 
-    chip.addEventListener("dragstart", (e) => {
-        e.dataTransfer.setData("text/plain", originalIndex);
-    });
+    document.getElementById('inline-info').classList.add('visible');
 
-    chipsContainer.appendChild(chip);
-});
+    // highlight selected chip
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    const chipEl = document.querySelector(`.chip[data-id="${id}"]`);
+    if (chipEl) chipEl.classList.add('selected');
+}
 
-/* DROPZONES */
-document.querySelectorAll(".dropzone").forEach(zone => {
+function closeInfo() {
+    selectedId = null;
+    document.getElementById('inline-info').classList.remove('visible');
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+}
 
-    zone.addEventListener("dragover", (e) => {
+/* ── RENDER ── */
+function render() {
+    renderBank();
+    renderZones();
+    updateProgress();
+    clearFeedbackUI();
+    // re-highlight selected chip if still in bank
+    if (selectedId && bankItems.includes(selectedId)) {
+        const chipEl = document.querySelector(`.chip[data-id="${selectedId}"]`);
+        if (chipEl) chipEl.classList.add('selected');
+    } else if (selectedId) {
+        closeInfo();
+    }
+}
+
+function renderBank() {
+    const bank = document.getElementById('chip-bank');
+    bank.innerHTML = '';
+
+    if (bankItems.length === 0) {
+        bank.innerHTML = '<div style="grid-column:1/-1;display:flex;align-items:center;justify-content:center;color:var(--text-light);font-size:0.82rem;font-style:italic;padding:16px;">All steps placed — check your sequence below ↓</div>';
+    } else {
+        bankItems.forEach(id => {
+            const step = getStep(id);
+            const chip = document.createElement('div');
+            chip.className = 'chip' + (id === selectedId ? ' selected' : '');
+            chip.draggable = true;
+            chip.dataset.id = id;
+            chip.innerHTML = `
+                <div class="chip-emoji">${step.emoji}</div>
+                <div class="chip-label">${step.label}</div>
+                <div class="chip-timing">${step.timing}</div>
+            `;
+
+            // click to preview
+            chip.addEventListener('click', () => showInfo(id));
+            addChipDrag(chip, id, 'bank', null);
+            bank.appendChild(chip);
+        });
+    }
+
+    bank.addEventListener('dragover', e => { e.preventDefault(); bank.classList.add('drag-over'); });
+    bank.addEventListener('dragleave', () => bank.classList.remove('drag-over'));
+    bank.addEventListener('drop', e => {
         e.preventDefault();
-    });
-
-    zone.addEventListener("drop", (e) => {
-
-        e.preventDefault();
-
-        const index = e.dataTransfer.getData("text/plain");
-        const item = items[index];
-
-        const draggedChip = document.querySelector(`.chip[data-index="${index}"]`);
-
-        if (!draggedChip) return;
-
-        /* PREVENT DOUBLE SCORING */
-        if (draggedChip.dataset.locked === "true") {
-            return;
+        bank.classList.remove('drag-over');
+        if (dragFrom === 'zone' && dragId) {
+            zoneContents[dragFromZone] = null;
+            if (!bankItems.includes(dragId)) bankItems.push(dragId);
+            dragId = dragFrom = dragFromZone = null;
+            render();
         }
+    });
+}
 
-        if (zone.dataset.answer === item.answer) {
+function renderZones() {
+    const grid = document.getElementById('zones-grid');
+    grid.innerHTML = '';
 
-            zone.classList.add("correct");
+    for (let i = 0; i < TOTAL; i++) {
+        const zone = document.createElement('div');
+        zone.className = 'drop-zone' + (zoneContents[i] ? ' filled' : '');
 
-            zone.appendChild(draggedChip);
+        const numRow = document.createElement('div');
+        numRow.className = 'zone-num';
+        numRow.innerHTML = `<span>Step ${i + 1}</span>` + (zoneContents[i] ? `<button class="zone-remove" title="Remove" data-zone="${i}">✕</button>` : '');
 
-            draggedChip.draggable = false;
-            draggedChip.style.cursor = "default";
-            draggedChip.dataset.locked = "true";
+        const content = document.createElement('div');
+        content.className = 'zone-content';
 
-            completed++;
-
-            if (completed === items.length) {
-
-                successMessage.style.display = "block";
-
-                /* SHOW RETURN BUTTON */
-                returnButtonContainer.style.display = "block";
-            }
-
+        if (zoneContents[i]) {
+            const step = getStep(zoneContents[i]);
+            content.innerHTML = `
+                <div class="placed-emoji">${step.emoji}</div>
+                <div class="placed-label">${step.label}</div>
+                <div class="placed-timing">${step.timing}</div>
+            `;
+            content.draggable = true;
+            addChipDrag(content, step.id, 'zone', i);
         } else {
-
-            zone.classList.add("incorrect");
-
-            setTimeout(() => {
-                zone.classList.remove("incorrect");
-            }, 1000);
+            content.innerHTML = `<span class="zone-placeholder">Drop here</span>`;
         }
+
+        zone.appendChild(numRow);
+        zone.appendChild(content);
+        addZoneDrop(zone, i);
+        grid.appendChild(zone);
+    }
+
+    grid.querySelectorAll('.zone-remove').forEach(btn => {
+        btn.addEventListener('click', () => removeFromZone(parseInt(btn.dataset.zone)));
     });
-});
+}
 
+function addChipDrag(el, id, from, zoneIdx) {
+    el.addEventListener('dragstart', e => {
+        dragId = id; dragFrom = from; dragFromZone = zoneIdx;
+        e.dataTransfer.effectAllowed = 'move';
+        setTimeout(() => el.classList.add('dragging'), 0);
+    });
+    el.addEventListener('dragend', () => {
+        el.classList.remove('dragging');
+        document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('drag-over'));
+        document.getElementById('chip-bank').classList.remove('drag-over');
+    });
+}
+
+function addZoneDrop(zoneEl, idx) {
+    zoneEl.addEventListener('dragover', e => { e.preventDefault(); zoneEl.classList.add('drag-over'); });
+    zoneEl.addEventListener('dragleave', () => zoneEl.classList.remove('drag-over'));
+    zoneEl.addEventListener('drop', e => {
+        e.preventDefault();
+        zoneEl.classList.remove('drag-over');
+        if (!dragId) return;
+
+        const displaced = zoneContents[idx];
+        zoneContents[idx] = dragId;
+
+        if (dragFrom === 'bank') {
+            bankItems = bankItems.filter(id => id !== dragId);
+            if (displaced) bankItems.push(displaced);
+        } else if (dragFrom === 'zone') {
+            zoneContents[dragFromZone] = displaced || null;
+        }
+
+        if (dragId === selectedId) closeInfo();
+        dragId = dragFrom = dragFromZone = null;
+        render();
+    });
+}
+
+function removeFromZone(idx) {
+    const id = zoneContents[idx];
+    if (!id) return;
+    zoneContents[idx] = null;
+    bankItems.push(id);
+    render();
+}
+
+function updateProgress() {
+    const filled = zoneContents.filter(Boolean).length;
+    document.getElementById('progress-fill').style.width = (filled / TOTAL * 100) + '%';
+    document.getElementById('progress-count').textContent = filled + ' / ' + TOTAL;
+    document.getElementById('btn-check').disabled = filled < TOTAL;
+}
+
+function checkOrder() {
+    const correctIds = stepsData.map(s => s.id);
+    let correct = 0;
+
+    document.querySelectorAll('.drop-zone').forEach((zone, i) => {
+        zone.classList.remove('zone-correct', 'zone-wrong');
+        if (zoneContents[i] === correctIds[i]) { zone.classList.add('zone-correct'); correct++; }
+        else zone.classList.add('zone-wrong');
+    });
+
+    const fb = document.getElementById('feedback');
+    fb.style.display = 'flex';
+
+    if (correct === TOTAL) {
+        fb.className = 'visible correct';
+        fb.innerHTML = `<span class="fb-icon">✅</span><span>All ${TOTAL} steps correctly placed — excellent work! You may now return to the course.</span>`;
+        buildResultsTable();
+        document.getElementById('results-section').classList.add('visible');
+        document.getElementById('score-badge').textContent = TOTAL + ' / ' + TOTAL;
+        document.getElementById('back-to-moodle').classList.add('visible');
+    } else {
+        fb.className = 'visible incorrect';
+        fb.innerHTML = `<span class="fb-icon">❌</span><span>${correct} of ${TOTAL} steps correctly placed. Red slots need adjusting — drag them to a new position and try again.</span>`;
+        document.getElementById('back-to-moodle').classList.remove('visible');
+    }
+}
+
+function clearFeedbackUI() {
+    const fb = document.getElementById('feedback');
+    fb.className = ''; fb.style.display = 'none';
+    document.getElementById('results-section').classList.remove('visible');
+    document.getElementById('back-to-moodle').classList.remove('visible');
+    document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('zone-correct', 'zone-wrong'));
+}
+
+function buildResultsTable() {
+    const tbody = document.getElementById('results-body');
+    tbody.innerHTML = '';
+    stepsData.forEach((step, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${i+1}</td><td style="white-space:nowrap">${step.emoji} ${step.timing}</td><td><strong>${step.title}</strong><div class="key">${step.key}</div></td>`;
+        tbody.appendChild(tr);
+    });
+}
+
+function resetActivity() {
+    zoneContents = Array(TOTAL).fill(null);
+    bankItems = shuffle(stepsData.map(s => s.id));
+    closeInfo();
+    render();
+}
+
+resetActivity();
 </script>
-
 </body>
 </html>
